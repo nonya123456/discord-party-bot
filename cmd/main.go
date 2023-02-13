@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/nonya123456/discord-party-bot/internal/config"
+)
 
 func main() {
-	fmt.Println("Hello, World")
+	conf := config.InitConfig()
+	fmt.Println(conf.Server)
 }

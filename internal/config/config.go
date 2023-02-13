@@ -12,11 +12,11 @@ var configOnce sync.Once
 var config *Config
 
 type Config struct {
+	Server string `mapstructure:"server"`
 }
 
 func InitConfig() *Config {
 	configOnce.Do(func() {
-
 		viper.SetConfigName("config")            // name of config file without extension
 		viper.AddConfigPath("./internal/config") // path to look for config file, relative to working directory
 		viper.AddConfigPath("/config")           // production config mount path
