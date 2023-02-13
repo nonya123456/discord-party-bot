@@ -15,7 +15,7 @@ type Config struct {
 	Token string `mapstructure:"token"`
 }
 
-func InitConfig() *Config {
+func NewConfig() *Config {
 	configOnce.Do(func() {
 		viper.SetConfigName("config")            // name of config file without extension
 		viper.AddConfigPath("./internal/config") // path to look for config file, relative to working directory
