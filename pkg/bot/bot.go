@@ -11,13 +11,14 @@ var bot *Bot
 var exists = struct{}{}
 
 type Bot struct {
+	Channel string
 	Session *discordgo.Session
 	Message *discordgo.Message
 	Ready   map[string]struct{}
 	Count   int
 }
 
-func New(token string) (*Bot, error) {
+func New(token string, channel string) (*Bot, error) {
 	s, err := discordgo.New("Bot " + token)
 	if err != nil {
 		return nil, errors.Wrap(err, "error creating Discord session,")
@@ -29,6 +30,7 @@ func New(token string) (*Bot, error) {
 	}
 
 	bot := &Bot{
+		Channel: channel,
 		Session: s,
 		Ready:   make(map[string]struct{}),
 		Count:   0,

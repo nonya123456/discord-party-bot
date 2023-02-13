@@ -8,7 +8,7 @@ import (
 func main() {
 	conf := config.New()
 
-	bot, err := bot.New(conf.Token)
+	bot, err := bot.New(conf.Token, conf.Channel)
 	if err != nil {
 		panic(err)
 	}
