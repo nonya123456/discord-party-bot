@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	conf := config.NewConfig()
+	conf := config.New()
 	fmt.Println(conf.Token)
 }
