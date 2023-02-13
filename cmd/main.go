@@ -8,5 +8,5 @@ import (
 
 func main() {
 	conf := config.InitConfig()
-	fmt.Println(conf.Server)
+	fmt.Println(conf.Token)
 }

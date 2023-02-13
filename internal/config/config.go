@@ -12,7 +12,7 @@ var configOnce sync.Once
 var config *Config
 
 type Config struct {
-	Server string `mapstructure:"server"`
+	Token string `mapstructure:"token"`
 }
 
 func InitConfig() *Config {
