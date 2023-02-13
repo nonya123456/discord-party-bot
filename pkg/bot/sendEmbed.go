@@ -8,9 +8,13 @@ import (
 )
 
 func (bot *Bot) SendEmbed() error {
+	if bot.Message != nil {
+		return errors.New("Message is already there")
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Title:       "Ready Check",
-		Description: strconv.Itoa(bot.Count),
+		Description: strconv.Itoa(len(bot.Ready)) + "/5",
 	}
 
 	readyButton := discordgo.Button{
@@ -30,7 +34,7 @@ func (bot *Bot) SendEmbed() error {
 	}
 
 	message, err := bot.Session.ChannelMessageSendComplex("760902112028262452", &discordgo.MessageSend{
-		Embeds:     []*discordgo.MessageEmbed{embed},
+		Embed:      embed,
 		Components: []discordgo.MessageComponent{actionsRow},
 	})
 	if err != nil {
