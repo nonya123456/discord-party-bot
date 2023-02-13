@@ -52,6 +52,10 @@ func New(token string) (*Bot, error) {
 				},
 			)
 
+			if len(bot.Ready) >= 5 {
+				bot.SendReadyEmbed()
+			}
+
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})

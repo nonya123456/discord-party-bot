@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (bot *Bot) SendEmbed() error {
+func (bot *Bot) SendReadyCheckEmbed() error {
 	if bot.Message != nil {
 		return errors.New("Message is already there")
 	}

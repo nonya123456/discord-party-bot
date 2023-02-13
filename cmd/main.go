@@ -13,7 +13,7 @@ func main() {
 		panic(err)
 	}
 
-	bot.SendEmbed()
+	bot.SendReadyCheckEmbed()
 
 	<-make(chan struct{})
 }
