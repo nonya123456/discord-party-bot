@@ -12,7 +12,6 @@ type Bot struct {
 	Session *discordgo.Session
 	Message *discordgo.Message
 	Ready   map[string]struct{}
-	Count   int
 }
 
 func New(token string, channel string) (*Bot, error) {
@@ -30,7 +29,6 @@ func New(token string, channel string) (*Bot, error) {
 		Channel: channel,
 		Session: s,
 		Ready:   make(map[string]struct{}),
-		Count:   0,
 	}
 
 	return bot, nil
