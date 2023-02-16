@@ -39,7 +39,7 @@ func main() {
 
 			bot.UpdateReadyCheckEmbed()
 
-			if len(bot.Ready) >= 1 {
+			if len(bot.Ready) >= 5 {
 				bot.SendReadyEmbed()
 
 				bot.ResetReady()
