@@ -12,8 +12,9 @@ var configOnce sync.Once
 var config *Config
 
 type Config struct {
-	Token   string `mapstructure:"token"`
-	Channel string `mapstructure:"channel"`
+	Token             string `mapstructure:"token"`
+	ReadyCheckChannel string `mapstructure:"ready-check-channel"`
+	ReadyChannel      string `mapstructure:"ready-channel"`
 }
 
 func New() *Config {

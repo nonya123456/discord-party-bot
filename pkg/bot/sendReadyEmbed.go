@@ -19,7 +19,7 @@ func (bot *Bot) SendReadyEmbed() error {
 		Fields: fields,
 	}
 
-	_, err := bot.Session.ChannelMessageSendEmbed(bot.Channel, embed)
+	_, err := bot.Session.ChannelMessageSendEmbed(bot.ReadyChannel, embed)
 	if err != nil {
 		return errors.Wrap(err, "Fail to send message")
 	}

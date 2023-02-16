@@ -8,13 +8,14 @@ import (
 var bot *Bot
 
 type Bot struct {
-	Channel string
-	Session *discordgo.Session
-	Message *discordgo.Message
-	Ready   map[string]struct{}
+	ReadyCheckChannel string
+	ReadyChannel      string
+	Session           *discordgo.Session
+	Message           *discordgo.Message
+	Ready             map[string]struct{}
 }
 
-func New(token string, channel string) (*Bot, error) {
+func New(token string, readyCheckChannel string, readyChannel string) (*Bot, error) {
 	s, err := discordgo.New("Bot " + token)
 	if err != nil {
 		return nil, errors.Wrap(err, "error creating Discord session,")
@@ -26,9 +27,10 @@ func New(token string, channel string) (*Bot, error) {
 	}
 
 	bot := &Bot{
-		Channel: channel,
-		Session: s,
-		Ready:   make(map[string]struct{}),
+		ReadyCheckChannel: readyCheckChannel,
+		ReadyChannel:      readyChannel,
+		Session:           s,
+		Ready:             make(map[string]struct{}),
 	}
 
 	return bot, nil

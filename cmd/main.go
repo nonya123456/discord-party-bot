@@ -9,7 +9,7 @@ import (
 func main() {
 	conf := config.New()
 
-	bot, err := bot.New(conf.Token, conf.Channel)
+	bot, err := bot.New(conf.Token, conf.ReadyCheckChannel, conf.ReadyChannel)
 	if err != nil {
 		panic(err)
 	}

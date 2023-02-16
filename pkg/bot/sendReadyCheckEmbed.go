@@ -33,7 +33,7 @@ func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 		Components: []discordgo.MessageComponent{readyButton, notReadyButton},
 	}
 
-	message, err := bot.Session.ChannelMessageSendComplex(bot.Channel, &discordgo.MessageSend{
+	message, err := bot.Session.ChannelMessageSendComplex(bot.ReadyCheckChannel, &discordgo.MessageSend{
 		Embed:      embed,
 		Components: []discordgo.MessageComponent{actionsRow},
 	})

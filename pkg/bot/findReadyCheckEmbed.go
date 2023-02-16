@@ -10,7 +10,7 @@ func (b *Bot) FindReadyCheckEmbedMessage() (*discordgo.Message, error) {
 		return b.Message, nil
 	}
 
-	messages, err := b.Session.ChannelMessages(b.Channel, 1, "", "", "")
+	messages, err := b.Session.ChannelMessages(b.ReadyCheckChannel, 1, "", "", "")
 	if err != nil {
 		return nil, errors.Wrap(err, "Cannot get channel messages.")
 	}
