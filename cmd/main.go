@@ -16,6 +16,20 @@ func main() {
 		panic(err)
 	}
 
+	readyCheckMessage, err := bot.FindReadyCheckEmbedMessage()
+	if err != nil {
+		panic(err)
+	}
+
+	if readyCheckMessage == nil {
+		readyCheckMessage, err = bot.SendReadyCheckEmbed()
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	bot.Message = readyCheckMessage
+
 	bot.AddHandler(func(
 		s *discordgo.Session,
 		i *discordgo.InteractionCreate,
@@ -61,8 +75,6 @@ func main() {
 			})
 		}
 	})
-
-	bot.SendReadyCheckEmbed()
 
 	<-make(chan struct{})
 }

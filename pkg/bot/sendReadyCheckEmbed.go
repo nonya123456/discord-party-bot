@@ -7,9 +7,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (bot *Bot) SendReadyCheckEmbed() error {
+func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 	if bot.Message != nil {
-		return errors.New("Message is already there")
+		return nil, errors.New("Message is already there")
 	}
 
 	embed := &discordgo.MessageEmbed{
@@ -38,9 +38,9 @@ func (bot *Bot) SendReadyCheckEmbed() error {
 		Components: []discordgo.MessageComponent{actionsRow},
 	})
 	if err != nil {
-		return errors.Wrap(err, "Fail to send message")
+		return nil, errors.Wrap(err, "Fail to send message")
 	}
 
 	bot.Message = message
-	return nil
+	return message, nil
 }
