@@ -1,8 +1,6 @@
 package main
 
 import (
-	"strconv"
-
 	"github.com/bwmarrin/discordgo"
 	"github.com/nonya123456/discord-party-bot/internal/config"
 	"github.com/nonya123456/discord-party-bot/pkg/bot"
@@ -29,6 +27,7 @@ func main() {
 	}
 
 	bot.Message = readyCheckMessage
+	bot.UpdateReadyCheckEmbed()
 
 	bot.AddHandler(func(
 		s *discordgo.Session,
@@ -38,19 +37,13 @@ func main() {
 		if i.MessageComponentData().CustomID == "ready" {
 			bot.Ready[i.Member.User.ID] = exists
 
-			s.ChannelMessageEditComplex(
-				&discordgo.MessageEdit{
-					Channel: bot.Message.ChannelID,
-					ID:      bot.Message.ID,
-					Embed: &discordgo.MessageEmbed{
-						Title:       "Ready Check",
-						Description: strconv.Itoa(len(bot.Ready)) + "/5",
-					},
-				},
-			)
+			bot.UpdateReadyCheckEmbed()
 
-			if len(bot.Ready) >= 5 {
+			if len(bot.Ready) >= 1 {
 				bot.SendReadyEmbed()
+
+				bot.ResetReady()
+				bot.UpdateReadyCheckEmbed()
 			}
 
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -59,16 +52,7 @@ func main() {
 		} else if bot.Ready[i.Member.User.ID] == exists {
 			delete(bot.Ready, i.Member.User.ID)
 
-			s.ChannelMessageEditComplex(
-				&discordgo.MessageEdit{
-					Channel: bot.Message.ChannelID,
-					ID:      bot.Message.ID,
-					Embed: &discordgo.MessageEmbed{
-						Title:       "Ready Check",
-						Description: strconv.Itoa(len(bot.Ready)) + "/5",
-					},
-				},
-			)
+			bot.UpdateReadyCheckEmbed()
 
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
