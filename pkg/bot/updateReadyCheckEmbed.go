@@ -17,7 +17,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 		playerStr += user.String()
 	}
 
-	bot.Session.ChannelMessageEditComplex(
+	_, err := bot.Session.ChannelMessageEditComplex(
 		&discordgo.MessageEdit{
 			Channel: bot.Message.ChannelID,
 			ID:      bot.Message.ID,
@@ -27,6 +27,9 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			},
 		},
 	)
+	if err != nil {
+		return errors.Wrap(err, "Cannot edit ready check message.")
+	}
 
 	return nil
 }
