@@ -8,6 +8,13 @@ import (
 )
 
 func (bot *Bot) UpdateReadyCheckEmbed() error {
+	timeRemainingStr := ""
+	if bot.CurrentTime != nil {
+		timeRemainingStr = ":hourglass:\t" + "**Time Remainning: ~" + strconv.Itoa(int(*bot.CurrentTime/60)) + " minutes**"
+	}
+
+	readyStr := ":white_check_mark:\t" + "**" + strconv.Itoa(len(bot.Ready)) + "/5**"
+
 	playerStr := ""
 	for k := range bot.Ready {
 		user, err := bot.Session.User(k)
@@ -22,8 +29,8 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			Channel: bot.Message.ChannelID,
 			ID:      bot.Message.ID,
 			Embed: &discordgo.MessageEmbed{
-				Title:       "Ready Check (reset every 30 mins)",
-				Description: ":white_check_mark:\t" + "**" + strconv.Itoa(len(bot.Ready)) + "/5**\n\n" + playerStr,
+				Title:       "Ready Check",
+				Description: timeRemainingStr + "\n\n" + readyStr + "\n\n" + playerStr,
 				Color:       1752220,
 			},
 		},
