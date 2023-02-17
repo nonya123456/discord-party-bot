@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/nonya123456/discord-party-bot/internal/config"
 	"github.com/nonya123456/discord-party-bot/pkg/bot"
@@ -59,6 +61,15 @@ func main() {
 			})
 		}
 	})
+
+	ticker := time.NewTicker(30 * time.Minute)
+	go func() {
+		for {
+			<-ticker.C
+			bot.ResetReady()
+			bot.UpdateReadyCheckEmbed()
+		}
+	}()
 
 	<-make(chan struct{})
 }
