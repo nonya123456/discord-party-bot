@@ -43,7 +43,7 @@ func main() {
 
 			bot.Ready[i.Member.User.ID] = exists
 
-			if len(bot.Ready) >= 1 {
+			if len(bot.Ready) >= 5 {
 				bot.SendReadyEmbed()
 				bot.ResetReady()
 			}
