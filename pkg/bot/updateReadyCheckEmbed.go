@@ -13,7 +13,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 		timeRemainingStr = ":hourglass:\t" + "**Time Remainning: ~" + strconv.Itoa(int(*bot.CurrentTime/60)) + " minutes**"
 	}
 
-	readyStr := ":white_check_mark:\t" + "**" + strconv.Itoa(len(bot.Ready)) + "/5**"
+	countStr := ":white_check_mark:\t" + "**Count: " + strconv.Itoa(len(bot.Ready)) + "/5**"
 
 	playerStr := ""
 	for k := range bot.Ready {
@@ -30,7 +30,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			ID:      bot.Message.ID,
 			Embed: &discordgo.MessageEmbed{
 				Title:       "Ready Check",
-				Description: timeRemainingStr + "\n\n" + readyStr + "\n\n" + playerStr,
+				Description: timeRemainingStr + "\n\n" + countStr + "\n\n" + playerStr,
 				Color:       1752220,
 			},
 		},
