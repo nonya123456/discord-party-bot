@@ -37,6 +37,10 @@ func main() {
 	) {
 		var exists = struct{}{}
 		if i.MessageComponentData().CustomID == "ready" {
+			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseUpdateMessage,
+			})
+
 			bot.Ready[i.Member.User.ID] = exists
 
 			bot.UpdateReadyCheckEmbed()
@@ -47,18 +51,14 @@ func main() {
 				bot.ResetReady()
 				bot.UpdateReadyCheckEmbed()
 			}
-
+		} else if bot.Ready[i.Member.User.ID] == exists {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
-		} else if bot.Ready[i.Member.User.ID] == exists {
+
 			delete(bot.Ready, i.Member.User.ID)
 
 			bot.UpdateReadyCheckEmbed()
-
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseUpdateMessage,
-			})
 		}
 	})
 
