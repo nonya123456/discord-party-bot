@@ -22,7 +22,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			Channel: bot.Message.ChannelID,
 			ID:      bot.Message.ID,
 			Embed: &discordgo.MessageEmbed{
-				Title:       "Ready Check",
+				Title:       "Ready Check (reset every 30 mins)",
 				Description: strconv.Itoa(len(bot.Ready)) + "/5\n\n" + playerStr,
 			},
 		},

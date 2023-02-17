@@ -13,7 +13,7 @@ func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 	}
 
 	embed := &discordgo.MessageEmbed{
-		Title:       "Ready Check",
+		Title:       "Ready Check (reset every 30 mins)",
 		Description: strconv.Itoa(len(bot.Ready)) + "/5",
 	}
 
