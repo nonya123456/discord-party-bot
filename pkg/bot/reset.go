@@ -1,5 +1,5 @@
 package bot
 
-func (bot *Bot) ResetReady() {
+func (bot *Bot) Reset() {
 	bot.Ready = make(map[string]struct{})
 }
