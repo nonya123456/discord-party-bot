@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/bwmarrin/discordgo"
 	"github.com/nonya123456/discord-party-bot/internal/config"
 	"github.com/nonya123456/discord-party-bot/pkg/bot"
@@ -11,7 +9,7 @@ import (
 func main() {
 	conf := config.New()
 
-	bot, err := bot.New(conf.Token, conf.ReadyCheckChannel, conf.ReadyChannel)
+	bot, err := bot.New(conf.Token, conf)
 	if err != nil {
 		panic(err)
 	}
@@ -59,15 +57,6 @@ func main() {
 			bot.UpdateReadyCheckEmbed()
 		}
 	})
-
-	ticker := time.NewTicker(30 * time.Minute)
-	go func() {
-		for {
-			<-ticker.C
-			bot.ResetReady()
-			bot.UpdateReadyCheckEmbed()
-		}
-	}()
 
 	<-make(chan struct{})
 }

@@ -15,6 +15,8 @@ type Config struct {
 	Token             string `mapstructure:"token"`
 	ReadyCheckChannel string `mapstructure:"ready-check-channel"`
 	ReadyChannel      string `mapstructure:"ready-channel"`
+	MaxTime           int64  `mapstructure:"max-time"`
+	UpdateEmbedPeriod int64  `mapstructure:"update-embed-period"`
 }
 
 func New() *Config {

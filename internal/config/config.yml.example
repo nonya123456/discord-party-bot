@@ -1,3 +1,5 @@
 token: token
 ready-check-channel: 760902112028262452
 ready-channel: 760902112028262452
+max-time: 10
+update-embed-period: 1
