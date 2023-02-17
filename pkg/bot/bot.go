@@ -1,7 +1,6 @@
 package bot
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
@@ -18,8 +17,9 @@ type Bot struct {
 	Message           *discordgo.Message
 	Ready             map[string]struct{}
 	MaxTime           int64
+	UpdateEmbedPeriod int64
 	CurrentTime       *int64
-	MainTicker        *time.Ticker
+	ResetTicker       *time.Ticker
 	UpdateEmbedTicker *time.Ticker
 }
 
@@ -40,18 +40,27 @@ func New(token string, config *config.Config) (*Bot, error) {
 		Session:           s,
 		Ready:             make(map[string]struct{}),
 		MaxTime:           config.MaxTime,
+		UpdateEmbedPeriod: config.UpdateEmbedPeriod,
 		CurrentTime:       nil,
-		MainTicker:        time.NewTicker(time.Duration(config.MaxTime) * time.Second),
+		ResetTicker:       time.NewTicker(time.Duration(config.MaxTime) * time.Second),
 		UpdateEmbedTicker: time.NewTicker(time.Duration(config.UpdateEmbedPeriod) * time.Second),
 	}
 
 	go func() {
 		for {
 			select {
-			case <-bot.MainTicker.C:
-				fmt.Println("MAIN")
+			case <-bot.ResetTicker.C:
+				bot.Reset()
+				bot.UpdateReadyCheckEmbed()
 			case <-bot.UpdateEmbedTicker.C:
-				fmt.Println("UPDATEEMBED")
+				if bot.CurrentTime != nil {
+					if *bot.CurrentTime < bot.UpdateEmbedPeriod {
+						*bot.CurrentTime = 0
+					} else {
+						*bot.CurrentTime -= bot.UpdateEmbedPeriod
+					}
+				}
+				bot.UpdateReadyCheckEmbed()
 			}
 		}
 	}()
