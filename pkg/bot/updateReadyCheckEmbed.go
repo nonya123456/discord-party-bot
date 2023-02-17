@@ -14,7 +14,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 		if err != nil {
 			return errors.Wrap(err, "Cannot get user with id: "+k)
 		}
-		playerStr += user.String()
+		playerStr += user.String() + "\n"
 	}
 
 	_, err := bot.Session.ChannelMessageEditComplex(
@@ -23,7 +23,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			ID:      bot.Message.ID,
 			Embed: &discordgo.MessageEmbed{
 				Title:       "Ready Check (reset every 30 mins)",
-				Description: ":white_check_mark:\t" + strconv.Itoa(len(bot.Ready)) + "/5\n\n" + playerStr,
+				Description: ":white_check_mark:\t" + "**" + strconv.Itoa(len(bot.Ready)) + "/5**\n\n" + playerStr,
 				Color:       1752220,
 			},
 		},
