@@ -17,6 +17,7 @@ func (bot *Bot) SendReadyEmbed() error {
 	embed := &discordgo.MessageEmbed{
 		Title:  "Ready!",
 		Fields: fields,
+		Color:  1752220,
 	}
 
 	_, err := bot.Session.ChannelMessageSendEmbed(bot.ReadyChannel, embed)

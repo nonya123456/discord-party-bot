@@ -15,18 +15,19 @@ func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 	embed := &discordgo.MessageEmbed{
 		Title:       "Ready Check (reset every 30 mins)",
 		Description: strconv.Itoa(len(bot.Ready)) + "/5",
+		Color:       1752220,
 	}
 
 	readyButton := discordgo.Button{
 		CustomID: "ready",
 		Label:    "Ready",
-		Style:    discordgo.PrimaryButton,
+		Style:    discordgo.SuccessButton,
 	}
 
 	notReadyButton := discordgo.Button{
 		CustomID: "not-ready",
 		Label:    "Not Ready",
-		Style:    discordgo.SecondaryButton,
+		Style:    discordgo.DangerButton,
 	}
 
 	actionsRow := discordgo.ActionsRow{

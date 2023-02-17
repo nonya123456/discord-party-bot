@@ -24,6 +24,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 			Embed: &discordgo.MessageEmbed{
 				Title:       "Ready Check (reset every 30 mins)",
 				Description: strconv.Itoa(len(bot.Ready)) + "/5\n\n" + playerStr,
+				Color:       1752220,
 			},
 		},
 	)
