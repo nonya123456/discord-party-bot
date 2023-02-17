@@ -10,7 +10,7 @@ import (
 func (bot *Bot) UpdateReadyCheckEmbed() error {
 	timeRemainingStr := ""
 	if bot.CurrentTime != nil {
-		timeRemainingStr = ":hourglass:\t" + "**Time Remainning: ~" + strconv.Itoa(int(*bot.CurrentTime/60)) + " minutes**"
+		timeRemainingStr = ":hourglass:\t" + "**Time Remaining: ~" + strconv.Itoa(int(*bot.CurrentTime/60)) + " minutes**"
 	}
 
 	countStr := ":white_check_mark:\t" + "**Count: " + strconv.Itoa(len(bot.Ready)) + "/5**"
