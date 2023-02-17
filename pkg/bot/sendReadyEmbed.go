@@ -12,6 +12,7 @@ func (bot *Bot) SendReadyEmbed() error {
 		fields[i] = &discordgo.MessageEmbedField{
 			Value: "<@" + k + ">",
 		}
+		i += 1
 	}
 
 	embed := &discordgo.MessageEmbed{
