@@ -43,14 +43,12 @@ func main() {
 
 			bot.Ready[i.Member.User.ID] = exists
 
-			bot.UpdateReadyCheckEmbed()
-
-			if len(bot.Ready) >= 5 {
+			if len(bot.Ready) >= 1 {
 				bot.SendReadyEmbed()
-
 				bot.ResetReady()
-				bot.UpdateReadyCheckEmbed()
 			}
+
+			bot.UpdateReadyCheckEmbed()
 		} else if bot.Ready[i.Member.User.ID] == exists {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
