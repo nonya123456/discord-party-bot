@@ -27,6 +27,7 @@ func main() {
 	}
 
 	bot.Message = readyCheckMessage
+	bot.Reset()
 	bot.UpdateReadyCheckEmbed()
 
 	bot.AddHandler(func(
@@ -38,6 +39,10 @@ func main() {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
+
+			if bot.CurrentTime == nil {
+				bot.StartTicker()
+			}
 
 			bot.Ready[i.Member.User.ID] = exists
 
@@ -53,6 +58,10 @@ func main() {
 			})
 
 			delete(bot.Ready, i.Member.User.ID)
+
+			if len(bot.Ready) == 0 {
+				bot.Reset()
+			}
 
 			bot.UpdateReadyCheckEmbed()
 		}
