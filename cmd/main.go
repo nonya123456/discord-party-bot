@@ -9,92 +9,91 @@ import (
 func main() {
 	conf := config.New()
 
-	bot, err := bot.New(conf.Token, conf)
+	b, err := bot.New(conf.Token, conf)
 	if err != nil {
 		panic(err)
 	}
 
-	readyCheckMessage, err := bot.FindReadyCheckEmbedMessage()
+	readyCheckMessage, err := b.FindReadyCheckEmbedMessage()
 	if err != nil {
 		panic(err)
 	}
 
 	if readyCheckMessage == nil {
-		readyCheckMessage, err = bot.SendReadyCheckEmbed()
+		readyCheckMessage, err = b.SendReadyCheckEmbed()
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	bot.Message = readyCheckMessage
-	bot.Reset()
-	bot.UpdateReadyCheckEmbed()
+	b.Message = readyCheckMessage
+	b.Reset()
+	b.UpdateReadyCheckEmbed()
 
-	bot.AddHandler(func(
+	b.AddHandler(func(
 		s *discordgo.Session,
 		i *discordgo.InteractionCreate,
 	) {
-		var exists = struct{}{}
-		if i.MessageComponentData().CustomID == "ready" {
+		if i.MessageComponentData().CustomID == string(bot.Ready) {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
 
-			_, ok := bot.Ready[i.Member.User.ID]
+			_, ok := b.Ready[i.Member.User.ID]
 			if ok {
 				return
 			}
 
-			if bot.CurrentTime == nil {
-				bot.StartTicker()
+			if b.CurrentTime == nil {
+				b.StartTicker()
 			}
 
-			bot.Ready[i.Member.User.ID] = exists
+			b.Ready[i.Member.User.ID] = bot.Ready
 
-			if len(bot.Ready) >= 5 {
-				bot.SendReadyEmbed()
-				bot.Reset()
+			if len(b.Ready) >= 5 {
+				b.SendReadyEmbed()
+				b.Reset()
 			}
 
-			bot.UpdateReadyCheckEmbed()
-		} else if bot.Ready[i.Member.User.ID] == exists {
+			b.UpdateReadyCheckEmbed()
+		} else if b.Ready[i.Member.User.ID] == bot.Ready {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
 
-			_, ok := bot.Ready[i.Member.User.ID]
+			_, ok := b.Ready[i.Member.User.ID]
 			if !ok {
 				return
 			}
 
-			delete(bot.Ready, i.Member.User.ID)
+			delete(b.Ready, i.Member.User.ID)
 
-			if len(bot.Ready) == 0 {
-				bot.Reset()
+			if len(b.Ready) == 0 {
+				b.Reset()
 			}
 
-			bot.UpdateReadyCheckEmbed()
+			b.UpdateReadyCheckEmbed()
 		}
 	})
 
 	go func() {
 		for {
 			select {
-			case <-bot.ResetTicker.C:
-				bot.Reset()
-				bot.UpdateReadyCheckEmbed()
-			case <-bot.UpdateEmbedTicker.C:
-				if bot.CurrentTime == nil {
+			case <-b.ResetTicker.C:
+				b.Reset()
+				b.UpdateReadyCheckEmbed()
+			case <-b.UpdateEmbedTicker.C:
+				if b.CurrentTime == nil {
 					continue
 				}
 
-				if *bot.CurrentTime < bot.UpdateEmbedPeriod {
-					*bot.CurrentTime = 0
+				if *b.CurrentTime < b.UpdateEmbedPeriod {
+					*b.CurrentTime = 0
 				} else {
-					*bot.CurrentTime -= bot.UpdateEmbedPeriod
+					*b.CurrentTime -= b.UpdateEmbedPeriod
 				}
 
-				bot.UpdateReadyCheckEmbed()
+				b.UpdateReadyCheckEmbed()
 			}
 		}
 	}()

@@ -8,12 +8,19 @@ import (
 	"github.com/pkg/errors"
 )
 
+type ReadyType string
+
+const (
+	Ready          ReadyType = "ready"
+	ReadyFiveStack ReadyType = "ready-5-stack"
+)
+
 type Bot struct {
 	ReadyCheckChannel string
 	ReadyChannel      string
 	Session           *discordgo.Session
 	Message           *discordgo.Message
-	Ready             map[string]struct{}
+	Ready             map[string]ReadyType
 	MaxTime           int64
 	UpdateEmbedPeriod int64
 	CurrentTime       *int64
@@ -36,7 +43,7 @@ func New(token string, config *config.Config) (*Bot, error) {
 		ReadyCheckChannel: config.ReadyCheckChannel,
 		ReadyChannel:      config.ReadyChannel,
 		Session:           s,
-		Ready:             make(map[string]struct{}),
+		Ready:             make(map[string]ReadyType),
 		MaxTime:           config.MaxTime,
 		UpdateEmbedPeriod: config.UpdateEmbedPeriod,
 		CurrentTime:       nil,
