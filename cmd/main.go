@@ -35,44 +35,9 @@ func main() {
 		i *discordgo.InteractionCreate,
 	) {
 		if i.MessageComponentData().CustomID == string(bot.Ready) {
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseUpdateMessage,
-			})
-
-			_, ok := b.Ready[i.Member.User.ID]
-			if ok {
-				return
-			}
-
-			if b.CurrentTime == nil {
-				b.StartTicker()
-			}
-
-			b.Ready[i.Member.User.ID] = bot.Ready
-
-			if len(b.Ready) >= 5 {
-				b.SendReadyEmbed()
-				b.Reset()
-			}
-
-			b.UpdateReadyCheckEmbed()
-		} else if b.Ready[i.Member.User.ID] == bot.Ready {
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseUpdateMessage,
-			})
-
-			_, ok := b.Ready[i.Member.User.ID]
-			if !ok {
-				return
-			}
-
-			delete(b.Ready, i.Member.User.ID)
-
-			if len(b.Ready) == 0 {
-				b.Reset()
-			}
-
-			b.UpdateReadyCheckEmbed()
+			b.HandleReadyButton(i)
+		} else {
+			b.HandleNotReadyButton(i)
 		}
 	})
 
