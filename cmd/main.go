@@ -36,6 +36,8 @@ func main() {
 	) {
 		if i.MessageComponentData().CustomID == string(bot.Ready) {
 			b.HandleReadyButton(i)
+		} else if i.MessageComponentData().CustomID == string(bot.ReadyFiveStack) {
+			b.HandleReadyFiveStackButton(i)
 		} else {
 			b.HandleNotReadyButton(i)
 		}
