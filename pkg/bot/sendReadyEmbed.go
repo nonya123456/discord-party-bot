@@ -1,22 +1,22 @@
 package bot
 
 import (
+	"strconv"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/pkg/errors"
 )
 
-func (bot *Bot) SendReadyEmbed() error {
-	var i = 0
-	fields := make([]*discordgo.MessageEmbedField, len(bot.Ready))
-	for k := range bot.Ready {
+func (bot *Bot) SendReadyEmbed(l []string) error {
+	fields := make([]*discordgo.MessageEmbedField, len(l))
+	for i, userId := range l {
 		fields[i] = &discordgo.MessageEmbedField{
-			Value: "<@" + k + ">",
+			Value: "<@" + userId + ">",
 		}
-		i += 1
 	}
 
 	embed := &discordgo.MessageEmbed{
-		Title:  "Ready!",
+		Title:  "Ready! (" + strconv.Itoa(len(l)) + "-stack)",
 		Fields: fields,
 		Color:  1752220,
 	}

@@ -24,6 +24,12 @@ func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 		Style:    discordgo.SuccessButton,
 	}
 
+	readyFiveStackButton := discordgo.Button{
+		CustomID: "ready-5-stack",
+		Label:    "Ready (5-stack)",
+		Style:    discordgo.SuccessButton,
+	}
+
 	notReadyButton := discordgo.Button{
 		CustomID: "not-ready",
 		Label:    "Not Ready",
@@ -31,7 +37,7 @@ func (bot *Bot) SendReadyCheckEmbed() (*discordgo.Message, error) {
 	}
 
 	actionsRow := discordgo.ActionsRow{
-		Components: []discordgo.MessageComponent{readyButton, notReadyButton},
+		Components: []discordgo.MessageComponent{readyButton, readyFiveStackButton, notReadyButton},
 	}
 
 	message, err := bot.Session.ChannelMessageSendComplex(bot.ReadyCheckChannel, &discordgo.MessageSend{

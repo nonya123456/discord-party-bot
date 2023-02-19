@@ -1,9 +1,9 @@
 package bot
 
-func (bot *Bot) Reset() {
-	bot.Ready = make(map[string]struct{})
-	bot.CurrentTime = nil
+func (b *Bot) Reset() {
+	b.Ready = make(map[string]ReadyType)
+	b.CurrentTime = nil
 
-	bot.ResetTicker.Stop()
-	bot.UpdateEmbedTicker.Stop()
+	b.ResetTicker.Stop()
+	b.UpdateEmbedTicker.Stop()
 }
