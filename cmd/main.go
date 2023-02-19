@@ -40,6 +40,11 @@ func main() {
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
 
+			_, ok := bot.Ready[i.Member.User.ID]
+			if ok {
+				return
+			}
+
 			if bot.CurrentTime == nil {
 				bot.StartTicker()
 			}
@@ -57,6 +62,11 @@ func main() {
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
 
+			_, ok := bot.Ready[i.Member.User.ID]
+			if !ok {
+				return
+			}
+
 			delete(bot.Ready, i.Member.User.ID)
 
 			if len(bot.Ready) == 0 {
@@ -66,6 +76,28 @@ func main() {
 			bot.UpdateReadyCheckEmbed()
 		}
 	})
+
+	go func() {
+		for {
+			select {
+			case <-bot.ResetTicker.C:
+				bot.Reset()
+				bot.UpdateReadyCheckEmbed()
+			case <-bot.UpdateEmbedTicker.C:
+				if bot.CurrentTime == nil {
+					continue
+				}
+
+				if *bot.CurrentTime < bot.UpdateEmbedPeriod {
+					*bot.CurrentTime = 0
+				} else {
+					*bot.CurrentTime -= bot.UpdateEmbedPeriod
+				}
+
+				bot.UpdateReadyCheckEmbed()
+			}
+		}
+	}()
 
 	<-make(chan struct{})
 }
