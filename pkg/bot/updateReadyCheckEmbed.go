@@ -49,7 +49,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 		Style:    discordgo.DangerButton,
 	})
 
-	nonFiveStackReadyCount := bot.CountNonFiveStackReady()
+	nonFiveStackReadyCount := len(bot.GetNonFiveStackReady())
 	if nonFiveStackReadyCount >= 2 {
 		buttons = append(buttons, discordgo.Button{
 			CustomID: "play-now",

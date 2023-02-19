@@ -34,12 +34,14 @@ func main() {
 		s *discordgo.Session,
 		i *discordgo.InteractionCreate,
 	) {
-		if i.MessageComponentData().CustomID == string(bot.Ready) {
+		if i.MessageComponentData().CustomID == "ready" {
 			b.HandleReadyButton(i)
-		} else if i.MessageComponentData().CustomID == string(bot.ReadyFiveStack) {
+		} else if i.MessageComponentData().CustomID == "ready-5-stack" {
 			b.HandleReadyFiveStackButton(i)
-		} else {
+		} else if i.MessageComponentData().CustomID == "not-ready" {
 			b.HandleNotReadyButton(i)
+		} else if i.MessageComponentData().CustomID == "play-now" {
+			b.HandlePlayNowButton(i)
 		}
 	})
 

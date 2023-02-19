@@ -19,7 +19,14 @@ func (b *Bot) HandleReadyButton(i *discordgo.InteractionCreate) {
 	b.Ready[i.Member.User.ID] = Ready
 
 	if len(b.Ready) >= 5 {
-		b.SendReadyEmbed()
+		l := make([]string, len(b.Ready))
+		i := 0
+		for k := range b.Ready {
+			l[i] = k
+			i++
+		}
+
+		b.SendReadyEmbed(l)
 		b.Reset()
 	}
 
