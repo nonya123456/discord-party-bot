@@ -8,8 +8,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-var bot *Bot
-
 type Bot struct {
 	ReadyCheckChannel string
 	ReadyChannel      string
