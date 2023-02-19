@@ -77,5 +77,27 @@ func main() {
 		}
 	})
 
+	go func() {
+		for {
+			select {
+			case <-bot.ResetTicker.C:
+				bot.Reset()
+				bot.UpdateReadyCheckEmbed()
+			case <-bot.UpdateEmbedTicker.C:
+				if bot.CurrentTime == nil {
+					continue
+				}
+
+				if *bot.CurrentTime < bot.UpdateEmbedPeriod {
+					*bot.CurrentTime = 0
+				} else {
+					*bot.CurrentTime -= bot.UpdateEmbedPeriod
+				}
+
+				bot.UpdateReadyCheckEmbed()
+			}
+		}
+	}()
+
 	<-make(chan struct{})
 }
