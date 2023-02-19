@@ -29,6 +29,39 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 		}
 	}
 
+	buttons := []discordgo.MessageComponent{}
+
+	buttons = append(buttons, discordgo.Button{
+		CustomID: "ready",
+		Label:    "Ready",
+		Style:    discordgo.SuccessButton,
+	})
+
+	buttons = append(buttons, discordgo.Button{
+		CustomID: "ready-5-stack",
+		Label:    "Ready (5-stack)",
+		Style:    discordgo.SuccessButton,
+	})
+
+	buttons = append(buttons, discordgo.Button{
+		CustomID: "not-ready",
+		Label:    "Not Ready",
+		Style:    discordgo.DangerButton,
+	})
+
+	nonFiveStackReadyCount := bot.CountNonFiveStackReady()
+	if nonFiveStackReadyCount >= 2 {
+		buttons = append(buttons, discordgo.Button{
+			CustomID: "play-now",
+			Label:    "Play as " + strconv.Itoa(nonFiveStackReadyCount) + "-stack",
+			Style:    discordgo.SecondaryButton,
+		})
+	}
+
+	actionsRow := discordgo.ActionsRow{
+		Components: buttons,
+	}
+
 	_, err := bot.Session.ChannelMessageEditComplex(
 		&discordgo.MessageEdit{
 			Channel: bot.Message.ChannelID,
@@ -38,6 +71,7 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 				Description: timeRemainingStr + "\n\n" + countStr + "\n\n" + playerStr,
 				Color:       1752220,
 			},
+			Components: []discordgo.MessageComponent{actionsRow},
 		},
 	)
 	if err != nil {
