@@ -16,12 +16,17 @@ func (bot *Bot) UpdateReadyCheckEmbed() error {
 	countStr := ":white_check_mark:\t" + "**Count: " + strconv.Itoa(len(bot.Ready)) + "/5**"
 
 	playerStr := ""
-	for k := range bot.Ready {
+	for k, rt := range bot.Ready {
 		user, err := bot.Session.User(k)
 		if err != nil {
 			return errors.Wrap(err, "Cannot get user with id: "+k)
 		}
-		playerStr += user.String() + "\n"
+
+		if rt == Ready {
+			playerStr += user.String() + "\n"
+		} else if rt == ReadyFiveStack {
+			playerStr += user.String() + " (5-stack)\n"
+		}
 	}
 
 	_, err := bot.Session.ChannelMessageEditComplex(
