@@ -40,6 +40,11 @@ func main() {
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
 
+			_, ok := bot.Ready[i.Member.User.ID]
+			if ok {
+				return
+			}
+
 			if bot.CurrentTime == nil {
 				bot.StartTicker()
 			}
@@ -56,6 +61,11 @@ func main() {
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseUpdateMessage,
 			})
+
+			_, ok := bot.Ready[i.Member.User.ID]
+			if !ok {
+				return
+			}
 
 			delete(bot.Ready, i.Member.User.ID)
 
