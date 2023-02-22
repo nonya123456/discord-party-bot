@@ -16,16 +16,17 @@ const (
 )
 
 type Bot struct {
-	ReadyCheckChannel string
-	ReadyChannel      string
-	Session           *discordgo.Session
-	Message           *discordgo.Message
-	Ready             map[string]ReadyType
-	MaxTime           int64
-	UpdateEmbedPeriod int64
-	CurrentTime       *int64
-	ResetTicker       *time.Ticker
-	UpdateEmbedTicker *time.Ticker
+	ReadyCheckChannel   string
+	ReadyChannel        string
+	Session             *discordgo.Session
+	Message             *discordgo.Message
+	NotificationMessage *discordgo.Message
+	Ready               map[string]ReadyType
+	MaxTime             int64
+	UpdateEmbedPeriod   int64
+	CurrentTime         *int64
+	ResetTicker         *time.Ticker
+	UpdateEmbedTicker   *time.Ticker
 }
 
 func New(token string, config *config.Config) (*Bot, error) {
@@ -40,15 +41,16 @@ func New(token string, config *config.Config) (*Bot, error) {
 	}
 
 	bot := &Bot{
-		ReadyCheckChannel: config.ReadyCheckChannel,
-		ReadyChannel:      config.ReadyChannel,
-		Session:           s,
-		Ready:             make(map[string]ReadyType),
-		MaxTime:           config.MaxTime,
-		UpdateEmbedPeriod: config.UpdateEmbedPeriod,
-		CurrentTime:       nil,
-		ResetTicker:       time.NewTicker(time.Duration(config.MaxTime) * time.Second),
-		UpdateEmbedTicker: time.NewTicker(time.Duration(config.UpdateEmbedPeriod) * time.Second),
+		ReadyCheckChannel:   config.ReadyCheckChannel,
+		ReadyChannel:        config.ReadyChannel,
+		Session:             s,
+		NotificationMessage: nil,
+		Ready:               make(map[string]ReadyType),
+		MaxTime:             config.MaxTime,
+		UpdateEmbedPeriod:   config.UpdateEmbedPeriod,
+		CurrentTime:         nil,
+		ResetTicker:         time.NewTicker(time.Duration(config.MaxTime) * time.Second),
+		UpdateEmbedTicker:   time.NewTicker(time.Duration(config.UpdateEmbedPeriod) * time.Second),
 	}
 
 	return bot, nil
