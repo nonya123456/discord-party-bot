@@ -14,6 +14,10 @@ func (b *Bot) HandleReadyButton(i *discordgo.InteractionCreate) {
 
 	if b.CurrentTime == nil {
 		b.StartTicker()
+		err := b.SendNotification()
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	b.Ready[i.Member.User.ID] = Ready
