@@ -1,6 +1,8 @@
 package bot
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 func (b *Bot) SendNotification() error {
 	msg := "Please head over to " + "<#" + b.ReadyCheckChannel + ">" + " and let us know if you're ready for the upcoming match."

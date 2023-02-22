@@ -26,7 +26,6 @@ type Bot struct {
 	CurrentTime       *int64
 	ResetTicker       *time.Ticker
 	UpdateEmbedTicker *time.Ticker
-	NotificationSent  bool
 }
 
 func New(token string, config *config.Config) (*Bot, error) {
@@ -50,7 +49,6 @@ func New(token string, config *config.Config) (*Bot, error) {
 		CurrentTime:       nil,
 		ResetTicker:       time.NewTicker(time.Duration(config.MaxTime) * time.Second),
 		UpdateEmbedTicker: time.NewTicker(time.Duration(config.UpdateEmbedPeriod) * time.Second),
-		NotificationSent:  false,
 	}
 
 	return bot, nil
